@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/app/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -25335,10 +25335,34 @@
 	        { className: 'container' },
 	        _react2.default.createElement(
 	          'h1',
-	          null,
+	          { className: 'text-center' },
 	          'FCC - Camper Leader board'
 	        ),
-	        _react2.default.createElement(_BoardContainer2.default, null)
+	        _react2.default.createElement(_BoardContainer2.default, null),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'text-center' },
+	          'Developed by ',
+	          _react2.default.createElement(
+	            'a',
+	            { href: 'http://hoath.surge.sh/', target: '__blank' },
+	            'Tran Huu Hoa'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'text-center' },
+	          _react2.default.createElement(
+	            'h6',
+	            null,
+	            'Check out my ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://github.com/hoatran1403/camper-leaderboard', target: '__blank' },
+	              'Repository'
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -25369,7 +25393,9 @@
 	
 	var _actions = __webpack_require__(/*! ../actions/actions */ 226);
 	
-	var _actions2 = _interopRequireDefault(_actions);
+	var actions = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -25380,7 +25406,8 @@
 	};
 	
 	var mapDispatchToProps = {
-	  fetchTopRecent: _actions2.default
+	  fetchTopRecent: actions.fetchTopRecent,
+	  fetchTopAlltime: actions.fetchTopAlltime
 	};
 	
 	var BoardContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Board2.default);
@@ -25420,50 +25447,72 @@
 	  function Board(props) {
 	    _classCallCheck(this, Board);
 	
-	    return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+	
+	    var isTopRecent = true;
+	    return _this;
 	  }
 	
 	  _createClass(Board, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      this.props.fetchTopRecent();
+	      this.isTopRecent = true;
+	    }
+	  }, {
+	    key: 'displayItems',
+	    value: function displayItems() {
+	      if (Object.getOwnPropertyNames(this.props.dataArray).length > 0) {
+	        return this.props.dataArray.dataArray.map(function (item, index) {
+	          return _react2.default.createElement(
+	            'tr',
+	            { key: index },
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              index + 1
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              _react2.default.createElement('img', { className: 'item-image', width: '40px', height: '40px', src: item.img }),
+	              '  ',
+	              item.username
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              item.recent
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              item.alltime
+	            )
+	          );
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'handleOnClickTopRecent',
+	    value: function handleOnClickTopRecent(e) {
+	      e.preventDefault();
+	      this.props.fetchTopRecent();
+	      this.isTopRecent = true;
+	    }
+	  }, {
+	    key: 'handleOnClickTopAlltime',
+	    value: function handleOnClickTopAlltime(e) {
+	      e.preventDefault();
+	      this.props.fetchTopAlltime();
+	      this.isTopRecent = false;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-	
-	      Object.getOwnPropertyNames(this.props.dataArray).length > 0;
-	
-	      console.log('run to this' + this.props.dataArray);
-	
-	      var items = function items() {
-	        Object.getOwnPropertyNames(_this2.props.dataArray).length > 0;
-	        return _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'jkdfbvskjbdjkbv'
-	          )
-	        );
-	        // console.log('run to this' + this.props.dataArray);
-	
-	        // return this.props.dataArray.map((item,index) => (
-	        //   <tr key = {index}>
-	        //     <td>{index}</td>
-	        //     <td>{item.username}</td>
-	        //     <td></td>
-	        //     <td></td>
-	        //   </tr>
-	        //
-	        // ))
-	      };
-	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'board' },
 	        _react2.default.createElement(
 	          'table',
 	          { className: 'table table-striped' },
@@ -25486,19 +25535,27 @@
 	              _react2.default.createElement(
 	                'th',
 	                null,
-	                'Points in past 30 days'
+	                _react2.default.createElement(
+	                  'a',
+	                  { onClick: this.handleOnClickTopRecent.bind(this) },
+	                  this.isTopRecent ? '< Points in past 30 days >' : 'Points in past 30 days'
+	                )
 	              ),
 	              _react2.default.createElement(
 	                'th',
 	                null,
-	                'All time points'
+	                _react2.default.createElement(
+	                  'a',
+	                  { onClick: this.handleOnClickTopAlltime.bind(this) },
+	                  !this.isTopRecent ? '< All time points >' : 'All time points'
+	                )
 	              )
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'tbody',
 	            null,
-	            items
+	            this.displayItems()
 	          )
 	        )
 	      );
@@ -25531,7 +25588,7 @@
 	  };
 	};
 	
-	var fetchTopRecent = function fetchTopRecent() {
+	var fetchTopRecent = exports.fetchTopRecent = function fetchTopRecent() {
 	  return function (dispatch) {
 	    fetch('https://fcctop100.herokuapp.com/api/fccusers/top/recent').then(function (response) {
 	      var json = response.json();
@@ -25542,7 +25599,16 @@
 	  };
 	};
 	
-	exports.default = fetchTopRecent;
+	var fetchTopAlltime = exports.fetchTopAlltime = function fetchTopAlltime() {
+	  return function (dispatch) {
+	    fetch('https://fcctop100.herokuapp.com/api/fccusers/top/alltime').then(function (response) {
+	      var json = response.json();
+	      return json;
+	    }).then(function (json) {
+	      dispatch(receiveData(json));
+	    });
+	  };
+	};
 
 /***/ },
 /* 227 */
@@ -25990,7 +26056,7 @@
 	
 	
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".item-image{\n  border: solid 2px;\n  border-radius: 50%;\n}\n\n.container {\n  background-color: white;\n}\n\nbody{\n  /*background-color: #009688;*/\n  background-color: #607d8b;\n}\n", ""]);
 	
 	// exports
 

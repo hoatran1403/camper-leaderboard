@@ -5,8 +5,8 @@ module.exports = {
     entry: path.resolve(__dirname, 'src') + '/app/index.js',
     output: {
         path: path.resolve(__dirname, 'dist') + '/app',
-        filename: 'bundle.js',
-        publicPath: '/app/'
+        filename: 'bundle.js'
+        // publicPath: '/dist/app/'
     },
     module: {
         loaders: [
@@ -23,7 +23,7 @@ module.exports = {
                 loader: 'style-loader!css-loader'
             },
             { test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-              loader: 'url-loader?limit=100000' 
+              loader: 'url-loader?limit=100000'
             }
         ]
     }
