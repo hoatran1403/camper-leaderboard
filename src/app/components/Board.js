@@ -1,6 +1,8 @@
 
 import React, { PropTypes } from 'react'
 
+
+
 class Board extends React.Component {
 
   constructor(props){
@@ -18,7 +20,7 @@ class Board extends React.Component {
       return this.props.dataArray.dataArray.map((item,index) => (
         <tr key = {index}>
           <td>{index + 1}</td>
-          <td>{item.username}</td>
+          <td><img className="item-image" width='40px' height='40px' src={item.img}></img>{'  '}{item.username}</td>
           <td>{item.recent}</td>
           <td>{item.alltime}</td>
         </tr>
@@ -40,7 +42,7 @@ class Board extends React.Component {
 
   render () {
   return (
-    <div>
+    <div className = "board">
       <table className="table table-striped">
         <thead>
           <tr>
@@ -50,7 +52,7 @@ class Board extends React.Component {
               {this.isTopRecent ? '< Points in past 30 days >' : 'Points in past 30 days'}
               </a></th>
             <th><a onClick = { this.handleOnClickTopAlltime.bind(this) }>
-              {!this.isTopRecent ? '< All time points >' : 'All time points'} 
+              {!this.isTopRecent ? '< All time points >' : 'All time points'}
             </a></th>
           </tr>
         </thead>

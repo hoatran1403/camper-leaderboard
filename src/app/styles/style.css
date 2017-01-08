@@ -1,0 +1,13 @@
+.item-image{
+  border: solid 2px;
+  border-radius: 50%;
+}
+
+.container {
+  background-color: white;
+}
+
+body{
+  /*background-color: #009688;*/
+  background-color: #607d8b;
+}

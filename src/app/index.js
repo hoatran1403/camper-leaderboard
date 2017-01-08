@@ -11,6 +11,7 @@ import App from './components/App'
 import bootstrap from './../../node_modules/bootstrap/dist/css/bootstrap.css'
 import style from './styles/style.css'
 
+
 import rootReducer from './reducers'
 
 const loggerMiddleware = createLogger();
