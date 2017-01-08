@@ -2,12 +2,15 @@
 import React, { PropTypes } from 'react'
 
 class Board extends React.Component {
+
   constructor(props){
     super(props)
+   const isTopRecent = true;
   }
 
   componentWillMount() {
     this.props.fetchTopRecent()
+    this.isTopRecent = true;
   }
 
   displayItems() {
@@ -23,6 +26,18 @@ class Board extends React.Component {
     }
   }
 
+  handleOnClickTopRecent(e){
+    e.preventDefault();
+    this.props.fetchTopRecent();
+    this.isTopRecent = true;
+  }
+
+  handleOnClickTopAlltime(e){
+    e.preventDefault();
+    this.props.fetchTopAlltime();
+    this.isTopRecent = false;
+  }
+
   render () {
   return (
     <div>
@@ -31,8 +46,12 @@ class Board extends React.Component {
           <tr>
             <th>#</th>
             <th>Camper Name</th>
-            <th>Points in past 30 days</th>
-            <th>All time points</th>
+            <th><a onClick = { this.handleOnClickTopRecent.bind(this) }>
+              {this.isTopRecent ? '< Points in past 30 days >' : 'Points in past 30 days'}
+              </a></th>
+            <th><a onClick = { this.handleOnClickTopAlltime.bind(this) }>
+              {!this.isTopRecent ? '< All time points >' : 'All time points'} 
+            </a></th>
           </tr>
         </thead>
         <tbody>
